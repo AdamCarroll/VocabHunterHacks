@@ -120,4 +120,8 @@ subprojects {
     [compileJava, compileTestJava].each { task ->
         task.options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
     }
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += [ '-Xep:ImmutableEnumChecker:OFF', '-Xep:TypeParameterUnusedInFormals:OFF' ]
+    }
 }
