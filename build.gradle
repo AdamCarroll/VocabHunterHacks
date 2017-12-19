@@ -33,6 +33,7 @@ buildscript {
         classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.1'
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.1'
         classpath 'gradle.plugin.com.github.spotbugs:gradlePlugin:1.6.0'
+        classpath "me.champeau.gradle:jmh-gradle-plugin:0.4.4"
     }
 }
 
@@ -49,7 +50,8 @@ subprojects {
     apply plugin: 'jacoco'
     apply plugin: 'com.github.ben-manes.versions'
     apply plugin: 'org.junit.platform.gradle.plugin'
-
+    apply plugin: 'me.champeau.gradle.jmh'
+    
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
@@ -117,5 +119,10 @@ subprojects {
 
     [compileJava, compileTestJava].each { task ->
         task.options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
+    }
+
+    jmh {
+        benchmarkMode = ['ss']
+        jmhVersion = '1.19'
     }
 }
