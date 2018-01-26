@@ -257,4 +257,12 @@ public class MainController {
             .map(SessionActions::getOpenSearchAction)
             .ifPresent(Runnable::run);
     }
+
+    public void hackNew() {
+        buttonNew.fire();
+    }
+
+    public void hackClose() {
+        menuExit.fire();
+    }
 }

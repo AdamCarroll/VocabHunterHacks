@@ -9,6 +9,7 @@ import io.github.vocabhunter.analysis.session.EnrichedSessionState;
 import io.github.vocabhunter.analysis.session.FileNameTool;
 import io.github.vocabhunter.analysis.session.SessionState;
 import io.github.vocabhunter.gui.dialogues.*;
+import io.github.vocabhunter.gui.hack.HackService;
 import io.github.vocabhunter.gui.model.MainModel;
 import io.github.vocabhunter.gui.model.SessionModel;
 import io.github.vocabhunter.gui.services.SessionFileService;
@@ -45,6 +46,9 @@ public class GuiFileHandler {
 
     @Inject
     private GuiTaskHandler guiTaskHandler;
+
+    @Inject
+    private HackService hackService;
 
     public void initialise(final Stage stage) {
         this.stage = stage;
@@ -165,6 +169,7 @@ public class GuiFileHandler {
 
         model.replaceSessionModel(state, sessionModel, enrichedState.getFile().orElse(null));
         statusManager.replaceSession(sessionModel.getPosition(), sessionModel.getProgress());
+        hackService.finishOpen();
     }
 
     public void handleSave() {
