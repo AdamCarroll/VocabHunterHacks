@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Consumer;
@@ -18,6 +19,8 @@ import javax.inject.Inject;
 import static io.github.vocabhunter.gui.main.ExecutableLogTool.*;
 
 public class VocabHunterGuiExecutable extends Application {
+    private static final Instant START = Instant.now();
+
     private static Collection<Module> modules;
 
     private final GuiceContext context = new GuiceContext(this, () -> modules);
@@ -34,7 +37,7 @@ public class VocabHunterGuiExecutable extends Application {
         Thread.currentThread().setUncaughtExceptionHandler((t, e) -> logError(e));
         try {
             context.init();
-            vocabHunterGui.start(stage);
+            vocabHunterGui.start(stage, START);
         } catch (final RuntimeException e) {
             logError(e);
             Platform.exit();
