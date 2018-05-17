@@ -8,9 +8,14 @@ import io.github.vocabhunter.gui.dialogues.FileDialogue;
 import io.github.vocabhunter.gui.dialogues.FileFormatType;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class HackFileDialogue implements FileDialogue {
+    private final Path testFile;
+
+    public HackFileDialogue(final Path testFile) {
+        this.testFile = testFile;
+    }
+
     @Override
     public void showChooser() {
         // Do nothing
@@ -23,7 +28,7 @@ public class HackFileDialogue implements FileDialogue {
 
     @Override
     public Path getSelectedFile() {
-        return Paths.get("big.txt");
+        return testFile;
     }
 
     @Override

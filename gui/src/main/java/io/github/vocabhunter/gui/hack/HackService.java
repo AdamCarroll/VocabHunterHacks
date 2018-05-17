@@ -19,13 +19,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
 public class HackService {
-    private static final int OPEN_FILE_COUNT = 10;
-
     private static final Logger LOG = LoggerFactory.getLogger(HackService.class);
 
     private final DelayedExecutor executor;
@@ -36,10 +31,12 @@ public class HackService {
 
     private final AtomicReference<Instant> start = new AtomicReference<>();
 
-    @Inject
-    public HackService(final ThreadPoolTool threadPoolTool, final MainController mainController) {
+    private final int openFileCount;
+
+    public HackService(final ThreadPoolTool threadPoolTool, final MainController mainController, final int openFileCount) {
         executor = threadPoolTool.delayedExecutor("hacker", 1);
         this.mainController = mainController;
+        this.openFileCount = openFileCount;
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::logShutdown));
         executor.execute(this::runHack);
@@ -54,7 +51,7 @@ public class HackService {
         try {
             LOG.info("Begin hack");
 
-            for (int i = 0; i < OPEN_FILE_COUNT; i++) {
+            for (int i = 0; i < openFileCount; i++) {
                 LOG.info("File open {}", i + 1);
                 latch.set(new CountDownLatch(1));
                 Platform.runLater(() -> mainController.hackNew());

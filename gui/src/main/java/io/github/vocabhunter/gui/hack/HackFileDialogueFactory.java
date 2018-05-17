@@ -9,9 +9,17 @@ import io.github.vocabhunter.gui.dialogues.FileDialogueFactory;
 import io.github.vocabhunter.gui.dialogues.FileDialogueType;
 import javafx.stage.Stage;
 
+import java.nio.file.Path;
+
 public class HackFileDialogueFactory implements FileDialogueFactory {
+    private final Path testFile;
+
+    public HackFileDialogueFactory(final Path testFile) {
+        this.testFile = testFile;
+    }
+
     @Override
     public FileDialogue create(final FileDialogueType type, final Stage stage) {
-        return new HackFileDialogue();
+        return new HackFileDialogue(testFile);
     }
 }

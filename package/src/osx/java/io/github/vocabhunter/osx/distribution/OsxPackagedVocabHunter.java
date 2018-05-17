@@ -10,8 +10,10 @@ import io.github.vocabhunter.gui.main.VocabHunterGuiExecutable;
 import io.github.vocabhunter.osx.OsxEventSourceModule;
 import javafx.application.Application;
 
+import static java.util.Arrays.asList;
+
 public class OsxPackagedVocabHunter extends VocabHunterGuiExecutable {
     public static void main(final String... args) {
-        runApp(args, Application::launch, new CoreGuiModule(), new LiveGuiModule(), new OsxEventSourceModule(args));
+        runApp(args, Application::launch, new CoreGuiModule(), new LiveGuiModule(asList(args)), new OsxEventSourceModule(args));
     }
 }
