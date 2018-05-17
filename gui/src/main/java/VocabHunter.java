@@ -7,6 +7,8 @@ import io.github.vocabhunter.gui.main.LiveGuiModule;
 import io.github.vocabhunter.gui.main.StandardEventSourceModule;
 import io.github.vocabhunter.gui.main.VocabHunterGuiExecutable;
 
+import static java.util.Arrays.asList;
+
 /**
  * This class is used instead of VocabHunterGuiExecutable to avoid showing the package name in the JavaFX menu.
  * This problem will be solved in a better way in a future version.
@@ -16,6 +18,6 @@ public class VocabHunter extends VocabHunterGuiExecutable {
         runApp(
             args,
             a -> launch(a), // This should remain as a lambda, to keep the short name for the quit menu item
-            new CoreGuiModule(), new LiveGuiModule(), new StandardEventSourceModule(args));
+            new CoreGuiModule(), new LiveGuiModule(asList(args)), new StandardEventSourceModule());
     }
 }
