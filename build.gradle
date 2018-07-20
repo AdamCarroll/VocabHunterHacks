@@ -13,9 +13,9 @@ allprojects {
     group 'io.github.vocabhunter'
 }
 
-task wrapper(type: Wrapper) {
+wrapper {
     description 'Setup the Gradle wrapper'
-    gradleVersion = '4.4'
+    gradleVersion = '4.9'
     distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }
 
@@ -28,12 +28,11 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
         classpath 'net.researchgate:gradle-release:2.6.0'
-        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.1'
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.1'
-        classpath 'gradle.plugin.com.github.spotbugs:gradlePlugin:1.6.0'
         classpath "me.champeau.gradle:jmh-gradle-plugin:0.4.4"
+        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2'
+        classpath 'gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.2'
     }
 }
 
@@ -49,9 +48,8 @@ subprojects {
     apply plugin: 'com.github.spotbugs'
     apply plugin: 'jacoco'
     apply plugin: 'com.github.ben-manes.versions'
-    apply plugin: 'org.junit.platform.gradle.plugin'
     apply plugin: 'me.champeau.gradle.jmh'
-    
+
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
@@ -60,23 +58,25 @@ subprojects {
     }
 
     dependencies {
-        testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.2'
-        testCompile 'org.junit.jupiter:junit-jupiter-params:5.0.2'
-        testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.2'
-        testCompile 'org.mockito:mockito-core:2.13.0'
+        testCompile 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+        testCompile 'org.junit.jupiter:junit-jupiter-params:5.2.0'
+        testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+        testCompile 'org.mockito:mockito-junit-jupiter:2.19.1'
         runtime 'ch.qos.logback:logback-classic:1.2.3'
+    }
 
-        // This was added for JUnit 5.0.2 - remove it if it's not required for a later release of JUnit
-        testCompile 'org.apiguardian:apiguardian-api:1.0.0'
+    test {
+        useJUnitPlatform()
     }
 
     pmd {
-        toolVersion = '5.8.1'
+        toolVersion = '6.3.0'
         ruleSetFiles = files("$rootProject.projectDir/config/pmd/ruleset.xml")
+        ruleSets = []
     }
 
     checkstyle {
-        toolVersion = '8.5'
+        toolVersion = '8.11'
         configFile = file("$rootProject.projectDir/config/checkstyle/checkstyle.xml")
     }
 
@@ -85,7 +85,7 @@ subprojects {
     }
 
     spotbugs {
-        toolVersion = '3.1.1'
+        toolVersion = '3.1.5'
         effort = 'max'
         reportLevel = 'medium'
     }
@@ -98,22 +98,13 @@ subprojects {
     }
 
     jacoco {
-        toolVersion = '0.7.9'
-        applyTo junitPlatformTest
+        toolVersion = '0.8.1'
     }
 
-    if (it.name in ['core', 'gui']) {
-        jacocoTestReport {
-            reports {
-                xml.enabled true
-                xml.destination file("${buildDir}/reports/jacoco/report.xml")
-            }
-        }
-    }
-
-    junitPlatformTest {
-        jacoco {
-            destinationFile = file("$buildDir/jacoco/test.exec")
+    jacocoTestReport {
+        reports {
+            xml.enabled true
+            xml.destination file("${buildDir}/reports/jacoco/report.xml")
         }
     }
 

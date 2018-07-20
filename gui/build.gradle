@@ -41,20 +41,23 @@ dependencies {
     compile 'org.controlsfx:controlsfx:8.40.14'
     compile 'de.jensd:fontawesomefx-fontawesome:4.7.0-5'
     testCompile project(path: ':core', configuration: 'tests')
-    testCompile 'org.testfx:testfx-core:4.0.10-alpha'
-    testRuntime 'org.jfxtras:openjfx-monocle:1.8.0_20'
+    if (JavaVersion.current() == JavaVersion.VERSION_1_9) {
+        testCompile('org.testfx:testfx-core:4.0.13-alpha') {
+            exclude group: 'org.testfx', module: 'testfx-internal-java8'
+        }
+        testRuntime 'org.testfx:testfx-internal-java9:4.0.13-alpha'
+        testRuntime 'org.testfx:openjfx-monocle:jdk-9+181'
+    } else {
+        testCompile 'org.testfx:testfx-core:4.0.13-alpha'
+        testRuntime 'org.testfx:openjfx-monocle:8u76-b04'
+    }
     runtime 'org.codehaus.janino:janino:3.0.8'
 }
 
-junitPlatform {
+test {
     if (project.hasProperty("skipGuiTests")) {
-        filters {
-            excludeClassNamePattern 'io.github.vocabhunter.gui.main.GuiTest'
-        }
+        exclude 'io/github/vocabhunter/gui/main/GuiTest*'
     }
-}
-
-junitPlatformTest {
     if (!project.hasProperty("noHeadless")) {
         jvmArgs "-Dheadless=true"
     }
