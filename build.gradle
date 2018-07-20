@@ -63,6 +63,7 @@ subprojects {
         testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
         testCompile 'org.mockito:mockito-junit-jupiter:2.19.1'
         runtime 'ch.qos.logback:logback-classic:1.2.3'
+        jmh configurations.compile
     }
 
     test {
@@ -115,5 +116,6 @@ subprojects {
     jmh {
         benchmarkMode = ['ss']
         jmhVersion = '1.21'
+        includeTests = false
     }
 }
