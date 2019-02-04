@@ -14,10 +14,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 
-import static java.util.stream.Collectors.joining;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ExecutableLogToolTest {
+    @SuppressWarnings("LoggerInitializedWithForeignClass")
     private static final Logger TARGET_LOG = (Logger) LoggerFactory.getLogger(ExecutableLogTool.class);
 
     private final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
@@ -62,8 +62,7 @@ public class ExecutableLogToolTest {
     private void validate(final Runnable r) {
         r.run();
 
-        String messages = appender.getMessages().stream()
-            .collect(joining());
+        String messages = String.join("", appender.getMessages());
         assertTrue(StringUtils.isNotBlank(messages));
     }
 }

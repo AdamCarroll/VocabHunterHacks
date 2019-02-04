@@ -8,15 +8,13 @@ import io.github.vocabhunter.analysis.model.AnalysisWord;
 import io.github.vocabhunter.analysis.model.WordUse;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.List;
 
-import static io.github.vocabhunter.analysis.core.CoreTool.listOf;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WordFilterTest {
-    private static final List<AnalysisWord> WORDS = listOf(
+    private static final List<AnalysisWord> WORDS = List.of(
         word("A", 10),
         word("don't", 2),
         word("Hello", 2),
@@ -71,10 +69,10 @@ public class WordFilterTest {
             .map(AnalysisWord::getWordIdentifier)
             .collect(toList());
 
-        assertEquals(listOf(expected), actual, "Filtered words");
+        assertEquals(List.of(expected), actual, "Filtered words");
     }
 
     private static AnalysisWord word(final String word, final int uses) {
-        return new WordUse(word, uses, Collections.emptyList());
+        return new WordUse(word, uses, List.of());
     }
 }

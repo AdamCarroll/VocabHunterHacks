@@ -16,8 +16,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
-import static io.github.vocabhunter.analysis.core.CoreTool.listOf;
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -25,15 +23,15 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class ExcludedWordsFilterTest {
     private static final String ERROR_MESSAGE = "ERROR_MESSAGE";
 
-    private static final List<String> WORDS_1 = listOf(
+    private static final List<String> WORDS_1 = List.of(
         "apple", "Pear", "PEACH", "plum", "Cherry"
     );
 
-    private static final List<String> WORDS_2 = listOf(
+    private static final List<String> WORDS_2 = List.of(
         "tomato", "Cabbage", "Courgette", "marrow"
     );
 
-    private static final List<String> WORDS_3 = listOf(
+    private static final List<String> WORDS_3 = List.of(
         "Salmon", "hake", "Bass", "BREAM"
     );
 
@@ -55,7 +53,7 @@ public class ExcludedWordsFilterTest {
     public void testNoFilter() {
         WordFilter filter = new FilterBuilder().build();
 
-        validate(filter, listOf(WORDS_1, WORDS_2, WORDS_3));
+        validate(filter, List.of(WORDS_1, WORDS_2, WORDS_3));
     }
 
     @Test
@@ -64,7 +62,7 @@ public class ExcludedWordsFilterTest {
             .addExcludedWords(WORDS_1)
             .build();
 
-        validate(filter, listOf(WORDS_2, WORDS_3));
+        validate(filter, List.of(WORDS_2, WORDS_3));
     }
 
     @Test
@@ -73,7 +71,7 @@ public class ExcludedWordsFilterTest {
             .addExcludedWords(WORDS_1).addExcludedWords(WORDS_2)
             .build();
 
-        validate(filter, listOf(WORDS_3));
+        validate(filter, List.of(WORDS_3));
     }
 
     @Test
@@ -82,7 +80,7 @@ public class ExcludedWordsFilterTest {
             .addExcludedWords(WORDS_1).addExcludedWords(WORDS_2).addExcludedWords(WORDS_3)
             .build();
 
-        validate(filter, emptyList());
+        validate(filter, List.of());
     }
 
     @Test
@@ -92,7 +90,7 @@ public class ExcludedWordsFilterTest {
             .addExcludedWordsSupplier(() -> WORDS_1).addExcludedWordsSupplier(() -> WORDS_2)
             .build();
 
-        validate(filter, listOf(WORDS_3));
+        validate(filter, List.of(WORDS_3));
     }
 
     @Test
@@ -128,6 +126,6 @@ public class ExcludedWordsFilterTest {
     }
 
     private static AnalysisWord word(final String word) {
-        return new WordUse(word, 1, emptyList());
+        return new WordUse(word, 1, List.of());
     }
 }

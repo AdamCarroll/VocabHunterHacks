@@ -12,14 +12,13 @@ import org.junit.jupiter.api.Test;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.IntStream;
 
-import static io.github.vocabhunter.analysis.core.CoreTool.listOf;
+import static io.github.vocabhunter.gui.model.FilterModelTestTool.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FilterGridModelTest extends BaseFilterModelTest {
+public class FilterGridModelTest {
     private static final TextGrid EMPTY_GRID = GridTestTool.emptyGrid();
 
     private static final TextGrid NORMAL_GRID = GridTestTool.grid();
@@ -87,7 +86,7 @@ public class FilterGridModelTest extends BaseFilterModelTest {
     }
 
     private void validateError(final FilterGridModel target, final TextGrid grid, final Integer... columns) {
-        validate(target, FILE_1, FILENAME_1, AbstractFilterModel.ERROR, true, grid, FilterFileMode.DOCUMENT, columns(columns));
+        validate(target, FILE_1, FILENAME_1, AbstractFilterModel.ERROR_MESSAGE, true, grid, FilterFileMode.DOCUMENT, columns(columns));
     }
 
     private void validateReplaceOk(final FilterGridModel target, final TextGrid grid, final String countDescription, final FilterFileMode mode, final Integer... columns) {
@@ -95,7 +94,7 @@ public class FilterGridModelTest extends BaseFilterModelTest {
     }
 
     private void validateReplaceError(final FilterGridModel target, final TextGrid grid, final FilterFileMode mode, final Integer... columns) {
-        validate(target, FILE_2, FILENAME_2, AbstractFilterModel.ERROR, true, grid, mode, columns(columns));
+        validate(target, FILE_2, FILENAME_2, AbstractFilterModel.ERROR_MESSAGE, true, grid, mode, columns(columns));
     }
 
     private void validate(
@@ -134,6 +133,6 @@ public class FilterGridModelTest extends BaseFilterModelTest {
     }
 
     private Set<Integer> columns(final Integer... columns) {
-        return new TreeSet<>(listOf(columns));
+        return Set.of(columns);
     }
 }
