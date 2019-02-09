@@ -20,12 +20,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
-import static io.github.vocabhunter.analysis.core.CoreTool.listOf;
 import static io.github.vocabhunter.analysis.grid.GridTestTool.acceptedCell;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singleton;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -34,7 +30,7 @@ import static org.mockito.Mockito.when;
 public class FilterFileWordsExtractorTest {
     private static final Path FILE = Paths.get("test");
 
-    private static final Set<Integer> SPREADSHEET_COLUMNS = new TreeSet<>(listOf(2, 3));
+    private static final Set<Integer> SPREADSHEET_COLUMNS = Set.of(2, 3);
 
     private static final SessionListedFile FILE_SESSION_KNOWN = new SessionListedFile(FILE, false);
 
@@ -44,11 +40,11 @@ public class FilterFileWordsExtractorTest {
 
     private static final DocumentListedFile FILE_DOCUMENT = new DocumentListedFile(FILE);
 
-    private static final List<String> WORDS = listOf("WORD1", "WORD2");
+    private static final List<String> WORDS = List.of("WORD1", "WORD2");
 
-    private static final List<GridLine> LINES = listOf(new GridLine(acceptedCell("test")));
+    private static final List<GridLine> LINES = List.of(new GridLine(acceptedCell("test")));
 
-    private static final TextGrid GRID = new TextGrid(LINES, emptyList());
+    private static final TextGrid GRID = new TextGrid(LINES, List.of());
 
     @Mock
     private SessionWordsTool sessionWordsTool;
@@ -90,7 +86,7 @@ public class FilterFileWordsExtractorTest {
     @Test
     public void testDocument() {
         when(textGridManager.readDocument(FILE)).thenReturn(GRID);
-        when(gridWordsExtractor.words(LINES, singleton(0))).thenReturn(WORDS);
+        when(gridWordsExtractor.words(LINES, Set.of(0))).thenReturn(WORDS);
 
         validate(FILE_DOCUMENT);
     }

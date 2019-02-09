@@ -4,11 +4,9 @@
 
 package io.github.vocabhunter.gui.search;
 
-import io.github.vocabhunter.analysis.core.CoreTool;
 import io.github.vocabhunter.gui.common.TestSequencedWord;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,9 +20,9 @@ public class SearcherTest {
 
     private static final TestSequencedWord WORD_BC = new TestSequencedWord("BC", 40);
 
-    private static final List<TestSequencedWord> EMPTY_WORDS = Collections.emptyList();
+    private static final List<TestSequencedWord> EMPTY_WORDS = List.of();
 
-    private static final List<TestSequencedWord> WORDS = CoreTool.listOf(WORD_AA, WORD_AB, WORD_AC, WORD_BC);
+    private static final List<TestSequencedWord> WORDS = List.of(WORD_AA, WORD_AB, WORD_AC, WORD_BC);
 
     private final Searcher<TestSequencedWord> target = new Searcher<>(SearchTool::matchMaker);
 

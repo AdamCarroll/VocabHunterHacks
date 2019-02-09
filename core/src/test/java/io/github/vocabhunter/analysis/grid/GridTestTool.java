@@ -7,11 +7,9 @@ package io.github.vocabhunter.analysis.grid;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static io.github.vocabhunter.analysis.core.CoreTool.listOf;
 import static java.util.stream.Collectors.toList;
 
 public final class GridTestTool {
@@ -20,7 +18,7 @@ public final class GridTestTool {
     }
 
     public static TextGrid emptyGrid() {
-        return new TextGrid(Collections.emptyList(), Collections.emptyList());
+        return new TextGrid(List.of(), List.of());
     }
 
     public static TextGrid grid() {
@@ -32,7 +30,7 @@ public final class GridTestTool {
         GridLine line2 = new GridLine(rejectedCell("Rejected1"));
         GridLine line3 = new GridLine(acceptedCell("Accepted2"));
 
-        return listOf(line1, line2, line3);
+        return List.of(line1, line2, line3);
     }
 
     public static List<GridLine> normalisedGridLines() {
@@ -40,7 +38,7 @@ public final class GridTestTool {
         GridLine line2 = new GridLine(acceptedCell("A2"));
         GridLine line3 = new GridLine(acceptedCell(""), acceptedCell(""), acceptedCell("C3"));
 
-        return listOf(line1, line2, line3);
+        return List.of(line1, line2, line3);
     }
 
     public static List<GridLine> unnormalisedGridLines() {
@@ -50,7 +48,7 @@ public final class GridTestTool {
         GridLine line4 = new GridLine(acceptedCell(""));
         GridLine line5 = new GridLine();
 
-        return listOf(line1, line2, line3, line4, line5);
+        return List.of(line1, line2, line3, line4, line5);
     }
 
     public static TextGrid legalSpacingGrid() {
@@ -63,7 +61,7 @@ public final class GridTestTool {
         GridLine line3 = new GridLine();
         GridLine line4 = new GridLine(acceptedCell("Content2"));
 
-        return listOf(line1, line2, line3, line4);
+        return List.of(line1, line2, line3, line4);
     }
 
     private static List<GridColumn> columns(final int... columns) {

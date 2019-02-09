@@ -12,11 +12,11 @@ import javafx.stage.Stage;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Consumer;
 import javax.inject.Inject;
 
 import static io.github.vocabhunter.gui.main.ExecutableLogTool.*;
-import static java.util.Arrays.asList;
 
 public class VocabHunterGuiExecutable extends Application {
     private static final Instant START = Instant.now();
@@ -29,7 +29,7 @@ public class VocabHunterGuiExecutable extends Application {
     private VocabHunterGui vocabHunterGui;
 
     public static void setModules(final Module... m) {
-        modules = asList(m);
+        modules = List.of(m);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class VocabHunterGuiExecutable extends Application {
     }
 
     public static void main(final String... args) {
-        runApp(args, Application::launch, new CoreGuiModule(), new LiveGuiModule(asList(args)), new StandardEventSourceModule());
+        runApp(args, Application::launch, new CoreGuiModule(), new LiveGuiModule(List.of(args)), new StandardEventSourceModule());
     }
 
     protected static void runApp(final String[] args, final Consumer<String[]> launcher, final Module... modules) {

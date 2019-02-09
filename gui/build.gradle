@@ -3,9 +3,12 @@
  */
 import org.apache.tools.ant.filters.*
 
-apply plugin: 'application'
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
+}
 
-mainClassName = "VocabHunter"
+mainClassName = "io.github.vocabhunter.gui.main.VocabHunterGuiExecutable"
 
 applicationName = "VocabHunter"
 
@@ -38,24 +41,23 @@ startScripts {
 dependencies {
     compile project(':core')
     compile 'com.gluonhq:ignite-guice:1.0.2'
+    compile 'org.controlsfx:controlsfx:9.0.0'
+    compile 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
 
     // This is required for the conditional logic in the logback setup
-    runtime 'org.codehaus.janino:janino:3.0.11'
+    runtime 'org.codehaus.janino:janino:3.0.12'
 
     testCompile project(path: ':core', configuration: 'tests')
 
     testCompile 'org.testfx:testfx-core:4.0.15-alpha'
-    if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
-        compile 'org.controlsfx:controlsfx:8.40.14'
-        compile 'de.jensd:fontawesomefx-fontawesome:4.7.0-5'
 
-        testRuntime 'org.testfx:openjfx-monocle:8u76-b04'
-    } else {
-        compile 'org.controlsfx:controlsfx:9.0.0'
-        compile 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
+    testRuntime 'org.testfx:openjfx-monocle:jdk-11+26'
+}
 
-        testRuntime 'org.testfx:openjfx-monocle:jdk-9+181'
-    }
+javafx {
+    modules = [
+        'javafx.controls', 'javafx.fxml'
+    ]
 }
 
 test {
@@ -65,4 +67,22 @@ test {
     if (!project.hasProperty("noHeadless")) {
         jvmArgs "-Dheadless=true"
     }
+}
+
+run {
+    jvmArgs += [
+        '--add-exports', 'javafx.base/com.sun.javafx.runtime=ALL-UNNAMED'
+    ]
+}
+
+task copyDependencies(type: Copy) {
+    from configurations.runtime
+    from jar
+    into "${buildDir}/libraries"
+}
+
+task copyJavafxModules(type: Copy) {
+    from configurations.runtimeClasspath
+    include "javafx*${javafx.platform.classifier}.jar"
+    into "${buildDir}/javafx-modules"
 }

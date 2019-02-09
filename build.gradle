@@ -6,7 +6,6 @@ import org.gradle.internal.os.OperatingSystem
 
 ext {
     operatingSystem = OperatingSystem.current()
-    isIncludeMacExtensions = operatingSystem.isMacOsX() && JavaVersion.current() == JavaVersion.VERSION_1_8
 }
 
 allprojects {
@@ -15,7 +14,7 @@ allprojects {
 
 wrapper {
     description 'Setup the Gradle wrapper'
-    gradleVersion = '4.10.2'
+    gradleVersion = '5.2.1'
     distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }
 
@@ -31,13 +30,14 @@ buildscript {
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
         classpath 'net.researchgate:gradle-release:2.8.0'
         classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7'
-        classpath 'gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.8'
+        classpath 'gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.9'
     }
 }
 
 apply plugin: 'base'
 apply plugin: 'net.researchgate.release'
 apply plugin: 'org.sonarqube'
+apply plugin: 'com.github.ben-manes.versions'
 
 subprojects {
 
@@ -46,20 +46,17 @@ subprojects {
     apply plugin: 'checkstyle'
     apply plugin: 'com.github.spotbugs'
     apply plugin: 'jacoco'
-    apply plugin: 'com.github.ben-manes.versions'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 11
+    targetCompatibility = 11
 
     repositories {
         jcenter()
     }
 
     dependencies {
-        testCompile 'org.junit.jupiter:junit-jupiter-api:5.3.2'
-        testCompile 'org.junit.jupiter:junit-jupiter-params:5.3.2'
-        testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
-        testCompile 'org.mockito:mockito-junit-jupiter:2.23.4'
+        testCompile 'org.junit.jupiter:junit-jupiter:5.4.0'
+        testCompile 'org.mockito:mockito-junit-jupiter:2.24.0'
         runtime 'ch.qos.logback:logback-classic:1.2.3'
     }
 
@@ -68,13 +65,13 @@ subprojects {
     }
 
     pmd {
-        toolVersion = '6.10.0'
+        toolVersion = '6.11.0'
         ruleSetFiles = files("$rootProject.projectDir/config/pmd/ruleset.xml")
         ruleSets = []
     }
 
     checkstyle {
-        toolVersion = '8.16'
+        toolVersion = '8.17'
         configFile = file("$rootProject.projectDir/config/checkstyle/checkstyle.xml")
     }
 
@@ -83,9 +80,10 @@ subprojects {
     }
 
     spotbugs {
-        toolVersion = '3.1.10'
+        toolVersion = '3.1.11'
         effort = 'max'
         reportLevel = 'medium'
+        excludeFilter = file("$rootProject.projectDir/config/spotbugs/excludeFilter.xml")
     }
 
     tasks.withType(com.github.spotbugs.SpotBugsTask) {
@@ -96,7 +94,7 @@ subprojects {
     }
 
     jacoco {
-        toolVersion = '0.8.2'
+        toolVersion = '0.8.3'
     }
 
     jacocoTestReport {
