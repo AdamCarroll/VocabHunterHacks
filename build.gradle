@@ -14,7 +14,7 @@ allprojects {
 
 wrapper {
     description 'Setup the Gradle wrapper'
-    gradleVersion = '5.2'
+    gradleVersion = '5.2.1'
     distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }
 
@@ -39,6 +39,7 @@ buildscript {
 apply plugin: 'base'
 apply plugin: 'net.researchgate.release'
 apply plugin: 'org.sonarqube'
+apply plugin: 'com.github.ben-manes.versions'
 
 subprojects {
 
@@ -47,7 +48,6 @@ subprojects {
     apply plugin: 'checkstyle'
     apply plugin: 'com.github.spotbugs'
     apply plugin: 'jacoco'
-    apply plugin: 'com.github.ben-manes.versions'
     apply plugin: 'me.champeau.gradle.jmh'
 
     sourceCompatibility = 11
@@ -58,10 +58,8 @@ subprojects {
     }
 
     dependencies {
-        testCompile 'org.junit.jupiter:junit-jupiter-api:5.3.2'
-        testCompile 'org.junit.jupiter:junit-jupiter-params:5.3.2'
-        testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
-        testCompile 'org.mockito:mockito-junit-jupiter:2.23.4'
+        testCompile 'org.junit.jupiter:junit-jupiter:5.4.0'
+        testCompile 'org.mockito:mockito-junit-jupiter:2.24.0'
         runtime 'ch.qos.logback:logback-classic:1.2.3'
         jmh configurations.compile
     }
