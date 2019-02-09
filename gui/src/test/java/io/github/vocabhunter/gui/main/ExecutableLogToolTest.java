@@ -8,13 +8,12 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import io.github.vocabhunter.analysis.core.VocabHunterException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 
-import static java.util.stream.Collectors.joining;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ExecutableLogToolTest {
@@ -62,8 +61,7 @@ public class ExecutableLogToolTest {
     private void validate(final Runnable r) {
         r.run();
 
-        String messages = appender.getMessages().stream()
-            .collect(joining());
+        String messages = String.join("", appender.getMessages());
         assertTrue(StringUtils.isNotBlank(messages));
     }
 }

@@ -6,12 +6,12 @@ package io.github.vocabhunter.gui.main;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import io.github.vocabhunter.analysis.core.GuiTaskHandler;
-import io.github.vocabhunter.analysis.core.GuiTaskHandlerImpl;
 import io.github.vocabhunter.analysis.core.ThreadPoolTool;
 import io.github.vocabhunter.analysis.core.VocabHunterException;
 import io.github.vocabhunter.analysis.settings.FileListManager;
 import io.github.vocabhunter.analysis.settings.FileListManagerImpl;
+import io.github.vocabhunter.gui.common.GuiTaskHandler;
+import io.github.vocabhunter.gui.common.GuiTaskHandlerImpl;
 import io.github.vocabhunter.gui.controller.MainController;
 import io.github.vocabhunter.gui.dialogues.FileDialogueFactory;
 import io.github.vocabhunter.gui.hack.HackFileDialogueFactory;

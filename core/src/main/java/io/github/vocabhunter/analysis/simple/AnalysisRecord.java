@@ -9,14 +9,14 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class AnalysisRecord {
+public final class AnalysisRecord {
     private final String identifier;
 
     private final String normalised;
 
-    private final int line;
+    private final Integer line;
 
-    public AnalysisRecord(final String identifier, final int line) {
+    public AnalysisRecord(final String identifier, final Integer line) {
         this.identifier = identifier;
         this.normalised = CoreTool.toLowerCase(identifier);
         this.line = line;
@@ -30,7 +30,7 @@ public class AnalysisRecord {
         return normalised;
     }
 
-    public int getLine() {
+    public Integer getLine() {
         return line;
     }
 
